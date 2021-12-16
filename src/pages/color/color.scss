@@ -1,0 +1,13 @@
+@import '/src/assets/scss/variables';
+
+.logo {
+  left: 30px;
+  position: absolute;
+  top: 30px;
+}
+
+.typography {
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 140px;
+}

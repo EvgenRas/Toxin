@@ -9,15 +9,47 @@ const ttf2woff2      = require('gulp-ttf2woff2');
 const ttf2svg        = require('gulp-ttf-svg');
 const fonter         = require('gulp-fonter');
 const svgsprite      = require('gulp-svg-sprite');
+const pug            = require('gulp-pug');
+const del            = require('del');
+const rename         = require("gulp-rename");
+const change         = require("gulp-change");
 
 const path = {
   build: {
     fonts: source_folder + "/assets/fonts/",
+    pugPages: project_folder,
   },
   src: {
     fonts: source_folder + "/assets/fonts/*.ttf",
+    pugPages: source_folder + "/pages/**/*.pug",
   }
 }
+
+function clean(params) {return del("./" + project_folder + "/")};
+function replaceImg(content) {
+  const regex = /require\("(.*)"\)/gm;
+  let m;
+  while ((m = regex.exec(content)) !== null) {
+    // This is necessary to avoid infinite loops with zero-width matches
+    if (m.index === regex.lastIndex) {
+      regex.lastIndex++;
+    }
+
+    // The result can be accessed through the `m`-variable.
+    m.forEach((match, groupIndex) => {
+      content = content.replace(m[0], '"'+m[1]+'"');
+    });
+  }
+  return content;
+};
+
+function pug2html() {
+  return gulp.src(path.src.pugPages)
+    .pipe(change(replaceImg))
+    .pipe(pug({pretty: true}))
+    .pipe(rename({dirname: ""}))
+    .pipe(gulp.dest(path.build.pugPages));
+};
 
 function getFonts(cb) {
   src(path.src.fonts)
@@ -117,6 +149,8 @@ gulp.task('svgsprite', function () {
 })
 
 const build = gulp.series(getFonts, fontsStyle);
+const buildhtml = gulp.series(clean, pug2html);
 
+exports.buildhtml = buildhtml
 exports.build = build
 exports.default = build

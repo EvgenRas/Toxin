@@ -5,16 +5,16 @@
     font-style: #{$style};
     font-weight: #{$weight};
     @if $full == max {
-      src: url('../fonts/#{$file-name}.eot') format('embedded-opentype');
-      src: url('../fonts/#{$file-name}.eot?#iefix') format('embedded-opentype'),
-           url('../fonts/#{$file-name}.ttf') format('truetype'),
-           url('../fonts/#{$file-name}.woff') format('woff'),
-           url('../fonts/#{$file-name}.woff2') format('woff2'),
-           url('../fonts/#{$file-name}.svg?#{$file-name}') format('svg');
+      src: url('/src/assets/fonts/#{$file-name}.eot') format('embedded-opentype');
+      src: url('/src/assets/fonts/#{$file-name}.eot?#iefix') format('embedded-opentype'),
+           url('/src/assets/fonts/#{$file-name}.ttf') format('truetype'),
+           url('/src/assets/fonts/#{$file-name}.woff') format('woff'),
+           url('/src/assets/fonts/#{$file-name}.woff2') format('woff2'),
+           url('/src/assets/fonts/#{$file-name}.svg?#{$file-name}') format('svg');
     }
     @if $full == min {
-      src: url('../fonts/#{$file-name}.woff') format('woff'),
-      url('../fonts/#{$file-name}.woff2') format('woff2');
+      src: url('/src/assets/fonts/#{$file-name}.woff') format('woff'),
+      url('/src/assets/fonts/#{$file-name}.woff2') format('woff2');
     }
   }
 }

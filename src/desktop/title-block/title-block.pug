@@ -1,0 +1,36 @@
+-
+  var typeArr = [
+    {
+      title: "H1",
+      text: "This one is the sub-section or widget title"
+    },
+    {
+      title: "H2",
+      text: "Next one is the item title inside widgets"
+    },
+    {
+      title: "H3",
+      text: "This is a label or CTA text"
+    },
+    {
+      title: "Body",
+      text: "This is the body text which is used for most of the design, like paragraphs, lists, etc."
+    }
+  ]
+
+mixin addBlockType(title="Body", text="text")
+  .title-block__body
+    .title-block__type-body
+      if title == "Body"
+        p #{title}
+      else
+        #{title} #{title}
+    .title-block__title-body
+      if title == "Body"
+        p #{text}
+      else
+        #{title} #{text}
+
+.title-block
+    each type in typeArr
+      +addBlockType(type.title, type.text)

@@ -1,0 +1,48 @@
+-
+  var colorArr = [
+    {
+      color: "#1F2041",
+      title: "Dark Shade 100%",
+      css: "dark-100"
+    },
+    {
+      color: "#1F2041",
+      title: "Dark Shade 75%",
+      css: "dark-75"
+    },
+    {
+      color: "#1F2041",
+      title: "Dark Shade 50%",
+      css: "dark-50"
+    },
+    {
+      color: "#1F2041",
+      title: "Dark Shade 25%",
+      css: "dark-25"
+    },
+    {
+      color: "#1F2041",
+      title: "Dark Shade 5%",
+      css: "dark-5"
+    },
+    {
+      color: "#BC9CFF",
+      title: "Purple",
+      css: "purple"
+    },
+    {
+      color: "#6FCF97",
+      title: "Green",
+      css: "green"
+    }
+  ]
+
+mixin addBlockColor(title="Dark Sgade 100%", color="#1F2041", css="dark-100")
+  .color-block__body
+    div(class=`color-block__color bg-${css}`)
+    h2.color-block__title #{title}
+      span.color-block__color-name #{color}
+
+.color-block
+  each color in colorArr
+    +addBlockColor(color.title, color.color, color.css)

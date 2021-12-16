@@ -1,0 +1,35 @@
+@import '/src/assets/scss/variables';
+.title-block {
+  width: 490px;
+
+  &__body {
+    display: flex;
+    margin: 0 0 47px;
+    padding: 5px 0 0 55px;
+    & h1 {margin: 0;}
+    & h2 {margin: 0;}
+    & h3 {margin: 0;}
+    & p {margin: 0;}
+  }
+
+  &__type-body {
+    color: $dark-25;
+    text-align: right;
+    width: 37px;
+
+    & h1,
+    & h2,
+    & h3,
+    & p {
+      color: $dark-25;
+      font-weight: 400;
+    }
+  }
+
+  &__title-body {
+    margin: 0 0 0 30px;
+    & h3 {text-transform: uppercase;}
+    & p {width: 305px;}
+  }
+}
+

@@ -1,0 +1,54 @@
+@import '/src/assets/scss/variables';
+
+.color-block {
+  &__body {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  &__color {
+    border-radius: 6px;
+    height: 70px;
+    margin-bottom: 20px;
+    margin-right: 40px;
+    width: 70px;
+  }
+
+  &__title {
+    width: 171px;
+
+    & span {
+      display: block;
+      font-weight: 400;
+      margin: 5px 0 0;
+    }
+  }
+}
+
+.bg-dark-100 {
+  background-color: $dark-100;
+}
+
+.bg-dark-75 {
+  background-color: $dark-75;
+}
+
+.bg-dark-50 {
+  background-color: $dark-50;
+}
+
+.bg-dark-25 {
+  background-color: $dark-25;
+}
+
+.bg-dark-5 {
+  background-color: $dark-5;
+}
+
+.bg-purple {
+  background-color: $purple;
+}
+
+.bg-green {
+  background-color: $green;
+}

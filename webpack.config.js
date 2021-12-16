@@ -1,132 +1,166 @@
 const path = require('path');
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const postcssPresetEnv = require('postcss-preset-env');
-const libImport = '@import \'./src/assets/scss/mixins.scss\';';
-const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
-const { extendDefaultPlugins } = require("svgo");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const PATHS = {
-  src: path.join(__dirname, "./src"),
-  dist: path.join(__dirname, path.basename(__dirname)),
+  src: path.resolve(__dirname, 'src'),
+  dist: path.resolve(__dirname, path.basename(__dirname)),
+  img: path.resolve(__dirname, 'src', 'assets', 'img'),
+  fonts: path.resolve(__dirname, 'src', 'assets', 'fonts')
 };
+const PAGES = {
+  index: path.resolve(PATHS.src, 'pages', 'index'),
+  color: path.resolve(PATHS.src, 'pages', 'color'),
+};
+
 module.exports = {
-    mode: 'development',
-    entry:
-    {
-      main: `${PATHS.src}/index.js`
+  mode: 'development',
+  entry: {
+    index: path.resolve(PAGES.index, 'index.js'),
+    color: path.resolve(PAGES.color, 'color.js')
+  },
+  output: {
+    filename: 'js/[name][contenthash].js',
+    path: PATHS.dist
+    // clean: true
+  },
+  devServer: {
+    // compress: true,
+    watchFiles: ['src/**/*', `${PATHS.dist}/**/*`],
+    port: 9000
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: `${PAGES.index}/index.pug`,
+      filename: 'index.html',
+      chunks: ['index'],
+      inject: 'body',
+    }),
+    new HtmlWebpackPlugin({
+      template: `${PAGES.color}/color.pug`,
+      filename: 'color.html',
+      chunks: ['color'],
+      inject: 'body',
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name][contenthash].css',
+      chunkFilename: 'index',
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name][contenthash].css',
+      chunkFilename: 'color',
+    }),
+    // new BundleAnalyzerPlugin()
+  ],
+  resolve: {
+    extensions: ['.js', '.json']
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
     },
-    output: {
-      path: path.resolve(__dirname, PATHS.dist),
-      filename: 'js/[name].[contenthash].js',
-      clean: true
-    },
-    plugins: [
-      new HtmlWebpackPlugin({
-        template: `${PATHS.src}/index.pug`,
-        favicon: `${PATHS.src}/favicon.ico`
-      }),
-      new MiniCssExtractPlugin({
-        linkType: "text/css",
-        filename: 'css/[name][contenthash].css'
-      })
-    ],
-    devServer: {
-      watchFiles: {
-        paths: [`${PATHS.src}/**/*.*`],
-        options: {
-          usePolling: false,
-        },
-      },
-      port: 9000,
-    },
-    module: {
-      rules: [
-        {
-          test: /\.pug$/,
-          use: [
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin({
+        parallel: true,
+        minify: [
+          CssMinimizerPlugin.cssnanoMinify,
+          CssMinimizerPlugin.cleanCssMinify
+        ],
+        minimizerOptions: {
+          preset: [
+            "default",
             {
-              loader: "pug-loader",
-              options: {
-                pretty: true
-              }
-            }
-          ]
-        },
-        {
-          test: /\.s[ac]ss$/i,
-          use: [
-            MiniCssExtractPlugin.loader,
-            "css-loader",
-            {
-              loader: 'postcss-loader',
-              options: {
-                postcssOptions: {
-                  plugins: [postcssPresetEnv()],
-                },
-              },
-            },
-            "group-css-media-queries-loader",
-            "sass-loader",
-            'webpack-append?'+ libImport
-          ]
-        },
-        {
-          test: /\.(jpe?g|png|gif|svg)$/i,
-          type: "asset/resource",
-          generator: {
-            filename: 'img/[hash][ext]',
-          },
-        },
-        {
-          test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-          type: "asset/resource",
-          generator: {
-            filename: 'fonts/[hash][ext]',
-          },
-        }
-      ]
-    },
-    optimization: {
-      minimizer: [
-        new ImageMinimizerPlugin({
-          generator: [
-            {
-              preset: "webp",
-              implementation: ImageMinimizerPlugin.imageminGenerate,
-              options: {
-                plugins: ["imagemin-webp"],
-              },
+              discardComments: { removeAll: true },
             },
           ],
-          minimizer: {
-            implementation: ImageMinimizerPlugin.imageminMinify,
+        },
+      }),
+      new TerserPlugin({
+        terserOptions: {
+          compress: true,
+          format: {
+            comments: false,
+          },
+        },
+        extractComments: false,
+      })
+    ],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
+      {
+        test: /\.pug$/,
+        include: path.join(__dirname, 'src'),
+        use: [
+          {
+            loader: 'pug-loader',
             options: {
-              plugins: [
-                ["gifsicle", { interlaced: true }],
-                ["jpegtran", { progressive: true }],
-                ["optipng", { optimizationLevel: 3 }],
-                [
-                  "svgo",
-                  {
-                    plugins: extendDefaultPlugins([
-                      {
-                        name: "removeViewBox",
-                        active: false,
-                      },
-                      {
-                        name: "addAttributesToSVGElement",
-                        params: {
-                          attributes: [{ xmlns: "http://www.w3.org/2000/svg" }],
-                        },
-                      },
-                    ]),
-                  },
-                ],
-              ],
+              pretty: true
+            }
+          }
+        ],
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: 'bemdecl-to-fs-loader',
+            options: { levels: [`${PATHS.src}/desktop`], extensions: ['css', 'scss', 'js'] } // Add css and js files of BEM entities to bundle
+          },
+          'html2bemdecl-loader' // First, convert HTML to bem DECL format
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [postcssPresetEnv()],
+              },
             },
           },
-        }),
-      ],
-    },
- }
+          'group-css-media-queries-loader',
+          {
+            loader: 'sass-loader'
+          }
+        ]
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        type: 'asset/resource',
+        include: [
+          PATHS.img
+        ],
+        generator: {
+          filename: 'img/[hash][ext]',
+        }
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        type: "asset/resource",
+        include: [
+          PATHS.fonts
+        ],
+        generator: {
+          filename: 'fonts/[hash][ext]',
+        },
+      }
+    ]
+  }
+}
