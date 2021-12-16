@@ -1,9 +1,12 @@
 @import '/src/assets/scss/variables';
 
 .logo {
+  fill: $dark-25;
+  height: 48px;
   left: 30px;
   position: absolute;
   top: 30px;
+  width: 48px;
 }
 
 .typography {

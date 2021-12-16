@@ -5,7 +5,12 @@ html(lang="en")
     title Colors &amp; Type
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
   body
-    img.logo(src=require("../../assets/img/logo.svg"))
+    //- object(type="image/svg+xml" data=require("../../assets/img/iconsprite/logo.svg") class="logo")
+    svg(class="logo" viewBox="0 0 48 48")
+      use(xlink:href=require("../../assets/img/icons/sprite.svg") + "#logo")
+    //- svg
+    //-   use(xlink:href=)
+    //- img.logo(src=require("../../assets/img/logo.svg"))
     .container
       .typography
         include ../../desktop/color-block/color-block
