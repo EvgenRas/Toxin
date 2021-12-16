@@ -1,0 +1,43 @@
+@import '/src/assets/scss/variables';
+
+.text-field {
+  width: 320px;
+
+  &__label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+
+  &__text {
+    color: $dark-50;
+    font-weight: 400;
+  }
+
+  &__input {
+    border: 1px solid $dark-25;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: $dark-75;
+    font-size: 14px;
+    height: 44px;
+    line-height: 18px;
+    padding: 13px 15px;
+    width: 100%;
+
+    &::placeholder {
+      color: $dark-25;
+    }
+
+    &:focus,
+    &:hover {
+      border: 1px solid $dark-50;
+      outline: none;
+    }
+  }
+
+  &__input_focused {
+    border: 1px solid $dark-50;
+    outline: none;
+  }
+}

@@ -47,6 +47,7 @@
     "getFonts": "gulp --option min",
     "getFontsMax": "gulp --option max",
     "otf2ttf": "gulp otf2ttf",
+    "kill": "taskkill /F /IM node.exe",
     "svgsprite": "gulp svgsprite"
   },
   "author": "",

@@ -15,13 +15,15 @@ const PATHS = {
 const PAGES = {
   index: path.resolve(PATHS.src, 'pages', 'index'),
   color: path.resolve(PATHS.src, 'pages', 'color'),
+  elements: path.resolve(PATHS.src, 'pages', 'elements')
 };
 
 module.exports = {
   mode: 'development',
   entry: {
     index: path.resolve(PAGES.index, 'index.js'),
-    color: path.resolve(PAGES.color, 'color.js')
+    color: path.resolve(PAGES.color, 'color.js'),
+    elements: path.resolve(PAGES.elements, 'elements.js')
   },
   output: {
     filename: 'js/[name][contenthash].js',
@@ -46,6 +48,12 @@ module.exports = {
       chunks: ['color'],
       inject: 'body',
     }),
+     new HtmlWebpackPlugin({
+      template: `${PAGES.elements}/elements.pug`,
+      filename: 'elements.html',
+      chunks: ['elements'],
+      inject: 'body',
+    }),
     new MiniCssExtractPlugin({
       filename: 'css/[name][contenthash].css',
       chunkFilename: 'index',
@@ -53,6 +61,10 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/[name][contenthash].css',
       chunkFilename: 'color',
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name][contenthash].css',
+      chunkFilename: 'elements',
     }),
     // new BundleAnalyzerPlugin()
   ],
