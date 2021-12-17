@@ -7,9 +7,10 @@ html(lang="en")
   body
     svg(class="logo" viewBox="0 0 48 48")
       use(xlink:href=require("../../assets/img/icons/sprite.svg") + "#logo")
-    .container
-      .form-elements
+    .form-elements
+      .container
         include ../../desktop/text-field/text-field
         +addTextField("email", "", "Email", "mb-20")
-        +addTextField("text", "This is pretty awesome", "", "mb-20", "Text Field", "Hover / Focus", ['focused'])
+        +addTextField("text", "This is pretty awesome", "", "mb-20", "Text Field", "Hover / Focus", "", ['focused'])
+        include ../../desktop/dropdown/dropdown
 

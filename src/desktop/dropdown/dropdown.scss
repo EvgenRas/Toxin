@@ -1,0 +1,79 @@
+@import '/src/assets/scss/variables';
+
+.dropdown {
+  width: 320px;
+
+  &__label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+
+  &__text {
+    color: $dark-50;
+    font-weight: 400;
+  }
+
+  &__select {
+    display: block;
+    position: relative;
+    width: 100%;
+  }
+}
+
+.new-select {
+  border: 1px solid $dark-25;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 12px 15px;
+  position: relative;
+  user-select: none;
+
+  &::after,
+  &::before {
+    background-color: $dark-75;
+    content: '';
+    display: block;
+    height: 2px;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translate(-3px, -50%) rotate(45deg);
+    transition: all .3s ease-out;
+    width: 10px;
+  }
+
+  &::after {transform: translate(3px, -50%) rotate(-45deg);}
+
+  &__list {
+    border: 1px solid $dark-25;
+    border-radius: 0 0 4px 4px;
+    border-top: 0;
+    cursor: pointer;
+    user-select: none;
+    width: calc(100%-2px);
+    z-index: 2;
+    &.on {display: block;}
+  }
+
+  &__item span {
+    display: block;
+    padding: 10px 15px;
+  }
+
+  &__item span:hover {color: #12b223;}
+  &.on {border-radius: 4px 4px 0 0;}
+  &.on:after {transform: translate(3px, -50%) rotate(45deg);}
+  &.on:before {transform: translate(-3px, -50%) rotate(-45deg);}
+}
+
+
+
+
+
+
+
+
+
+
+
