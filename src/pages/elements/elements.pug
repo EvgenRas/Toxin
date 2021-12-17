@@ -10,4 +10,6 @@ html(lang="en")
     .container
       .form-elements
         include ../../desktop/text-field/text-field
+        +addTextField("email", "", "Email", "mb-20")
+        +addTextField("text", "This is pretty awesome", "", "mb-20", "Text Field", "Hover / Focus", ['focused'])
 

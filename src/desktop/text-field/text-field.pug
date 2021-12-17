@@ -1,13 +1,28 @@
-.text-field.mb-20
-  .text-field__body
-    .text-field__label
-      h3.text-field__title Text Field
-      h3.text-field__text Default
-    input.text-field__input(type="email" placeholder="Email")
-.text-field.mb-20
-  .text-field__body
-    .text-field__label
-      h3.text-field__title Text Field
-      h3.text-field__text Hover / Focus
-    input.text-field__input.text-field__input_focused(type="email" placeholder="Email")
+mixin addTextField(type="text", value="", placeholder="Text", cssClass="", title="Text Field", defText="Default", modify=[])
+  - var modCss = ""
+  if modify != []
+    each item in modify
+      if item == "focused"
+        - modCss = modCss + " text-field__input_focused"
+  .text-field(class=cssClass)
+    .text-field__body
+      .text-field__label
+        h3.text-field__title #{title}
+        h3.text-field__text #{defText}
+      input.text-field__input(type=type placeholder=placeholder value=value class=modCss)
+
+
+
+//- .text-field.mb-20
+//-   .text-field__body
+//-     .text-field__label
+//-       h3.text-field__title Text Field
+//-       h3.text-field__text Default
+//-     input.text-field__input(type="email" placeholder="Email")
+//- .text-field.mb-20
+//-   .text-field__body
+//-     .text-field__label
+//-       h3.text-field__title Text Field
+//-       h3.text-field__text Hover / Focus
+//-     input.text-field__input.text-field__input_focused(type="email" placeholder="Email")
 

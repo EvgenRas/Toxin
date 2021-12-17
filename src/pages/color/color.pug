@@ -1,3 +1,60 @@
+-
+  var colorArr = [
+    {
+      color: "#1F2041",
+      title: "Dark Shade 100%",
+      css: "dark-100"
+    },
+    {
+      color: "#1F2041",
+      title: "Dark Shade 75%",
+      css: "dark-75"
+    },
+    {
+      color: "#1F2041",
+      title: "Dark Shade 50%",
+      css: "dark-50"
+    },
+    {
+      color: "#1F2041",
+      title: "Dark Shade 25%",
+      css: "dark-25"
+    },
+    {
+      color: "#1F2041",
+      title: "Dark Shade 5%",
+      css: "dark-5"
+    },
+    {
+      color: "#BC9CFF",
+      title: "Purple",
+      css: "purple"
+    },
+    {
+      color: "#6FCF97",
+      title: "Green",
+      css: "green"
+    }
+  ]
+  var typeArr = [
+    {
+      title: "H1",
+      text: "This one is the sub-section or widget title"
+    },
+    {
+      title: "H2",
+      text: "Next one is the item title inside widgets"
+    },
+    {
+      title: "H3",
+      text: "This is a label or CTA text"
+    },
+    {
+      title: "Body",
+      text: "This is the body text which is used for most of the design, like paragraphs, lists, etc."
+    }
+  ]
+
 doctype html
 html(lang="en")
   head
@@ -9,5 +66,11 @@ html(lang="en")
       use(xlink:href=require("../../assets/img/icons/sprite.svg") + "#logo")
     .container
       .typography
-        include ../../desktop/color-block/color-block
-        include ../../desktop/title-block/title-block
+        .color-block
+          include ../../desktop/color-block/color-block
+          each color in colorArr
+            +addBlockColor(color.title, color.color, color.css)
+        .title-block
+          include ../../desktop/title-block/title-block
+          each type in typeArr
+            +addBlockType(type.title, type.text)
